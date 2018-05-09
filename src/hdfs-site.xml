@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Licensed under the Apache License, Version 2.0 (the "License"); you 
+	may not use this file except in compliance with the License. You may obtain 
+	a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless 
+	required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. 
+	See accompanying LICENSE file. -->
+<!-- Put site-specific property overrides in this file. -->
+<configuration>
+  <property>
+    <name>dfs.nameservices</name>
+    <value>beh</value>
+    <final>false</final>
+    <description/>
+  </property> 
+  <property>
+    <name>dfs.ha.namenodes.beh</name>
+    <value>nn1,nn2</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.namenode.rpc-address.beh.nn1</name>
+    <value>hadoop001:9000</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.namenode.http-address.beh.nn1</name>
+    <value>10.160.15.136:50070</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.namenode.rpc-address.beh.nn2</name>
+    <value>hadoop002:9000</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.namenode.http-address.beh.nn2</name>
+    <value>10.160.15.137:50070</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.namenode.shared.edits.dir</name>
+    <value>qjournal://hadoop001:8485;hadoop002:8485;hadoop003:8485/beh</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.ha.automatic-failover.enabled.beh</name>
+    <value>true</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.client.failover.proxy.provider.beh</name>
+    <value>org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.journalnode.edits.dir</name>
+    <value>/opt/beh/metadata/journal</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.ha.fencing.methods</name>
+    <value>sshfence</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.ha.fencing.ssh.private-key-files</name>
+    <value>/home/hadoop/.ssh/id_rsa</value>
+    <final>true</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.data.dir</name>
+    <value>/data/sdb/,/data/sdc/,/data/sdd/,/data/sde/,/data/sdf/,
+   	/data/sdg/,/data/sdh/,/data/sdi/,/data/sdj/,/data/sdk/,/data/sdl/,
+    /data/sdm/,/data/sdn/,/data/sdo/,/data/sdp/,/data/sdq/,/data/sdr/,
+    /data/sds/,/data/sdt/,/data/sdu/,/data/sdv/,/data/sdw/,/data/sdx/,/data/sdy/</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.block.size</name>
+    <value>134217728</value>
+    <final>false</final>
+    <description/>
+  </property> 
+  <property>
+    <name>dfs.datanode.handler.count</name>
+    <value>20</value>
+    <final>false</final>
+    <description>default value is 10.</description>
+  </property>
+  <property>
+    <name>dfs.namenode.handler.count</name>
+    <value>20</value>
+    <final>false</final>
+    <description>default value is 10.</description>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.datanode.max.xcievers</name>
+    <value>131072</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.datanode.socket.write.timeout</name>
+    <value>600000</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+    <name>dfs.socket.timeout</name>
+    <value>60000</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+      <name>dfs.datanode.failed.volumes.tolerated</name>
+      <value>0</value>
+      <final>false</final>
+      <description/>
+  </property>
+  <property>
+    <name>dfs.replication</name>
+    <value>3</value>
+    <final>false</final>
+    <description/>
+  </property>
+
+<property>
+  <name>dfs.permissions.enabled</name>
+  <value>true</value>
+  <description>
+    If "true", enable permission checking in HDFS.
+    If "false", permission checking is turned off,
+    but all other behavior is unchanged.
+    Switching from one parameter value to the other does not change the mode,
+    owner or group of files or directories.
+  </description>
+</property>
+<property>
+  <name>dfs.permissions.superusergroup</name>
+  <value>hadoop</value>
+  <description>The name of the group of super-users.</description>
+</property>
+<property>
+  <name>dfs.namenode.acls.enabled</name>
+  <value>true</value>
+  <description>
+    Set to true to enable support for HDFS ACLs (Access Control Lists).  By
+    default, ACLs are disabled.  When ACLs are disabled, the NameNode rejects
+    all RPCs related to setting or getting ACLs.
+  </description>
+</property>
+<property>
+  <name>dfs.namenode.datanode.registration.ip-hostname-check</name>
+  <value>false</value>
+</property>
+<!--
+  <property>
+    <name>mapred.child.env</name>
+    <value>JAVA_LIBRARY_PATH=$HADOOP_HOME/lib/native</value>
+    <final>false</final>
+    <description/>
+  </property>
+  <property>
+  <name>dfs.datanode.balance.bandwidthPerSec</name>
+  <value>104857600</value>
+  <description>  Specifies the maximum bandwidth that each datanode can utilize for the balancing purpose in term of the number of bytes per second. </description>
+  </property>
+  <property>
+    <name>dfs.client.failover.max.attempts</name>
+    <value>15</value>
+    <description>
+        Expert only. The number of client failover attempts that should be
+        made before the failover is considered failed.
+    </description>
+  </property>
+-->
+  <!--
+    <property>
+        <name>dfs.domain.socket.path</name>
+            <value>/opt/beh/conf/hadoop-hdfs</value>
+              </property>
+             
+ #               <property>
+  #                    <name>dfs.client.read.shortcircuit</name>
+   #                             <value>true</value>
+    #                                        </property>
+#
+ # <property>
+  #      <name>dfs.client.read.shortcircuit.skip.checksum</name>
+   #               <value>true</value>
+    #                          </property>  -->
+<property> 
+  <name>dfs.hosts.exclude</name> 
+  <value>/opt/beh/conf/slaves.exclude</value> 
+</property>
+</configuration>

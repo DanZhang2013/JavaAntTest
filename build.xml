@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="UDH" basedir="." default="jar">
+	<!-- 工程目录结构  
+  project  
+      |-src
+      |-lib
+      |-target  
+      |-out  
+      |-build.xml  
+  -->
+	<property name="lib.dir" value="lib"/>
+	<property name="src.dir" value="src"/>
+	<property name="fileset.dir" value="bin"/>
+	<property name="classes.dir" value="target"/>
+	<property name="output.dir" value="out"/>
+	<property name="jarname" value="UDH.jar"/>
+	<property name="mainclass" value="com.bonc.main.SocketMain"/>
+
+	<!-- 第三方jar包的路径 -->
+	<path id="lib-classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<!-- 0. 清空class目录及jar存放目录 -->
+	<target name="清空class目录">
+		<delete dir="${classes.dir}"/>
+		<delete dir="${output.dir}"/>
+	</target>
+
+	<!-- 1. 初始化工作，创建目录 -->
+	<target name="初始化" depends="清空class目录">
+		<mkdir dir="${classes.dir}"/>
+		<mkdir dir="${output.dir}"/>
+	</target>
+
+	<!-- 2. 编译 -->
+	<target name="编译" depends="初始化">
+		<javac srcdir="${src.dir}" destdir="${classes.dir}"
+			includeantruntime="on">
+			<compilerarg line="-encoding UTF-8" />
+			<classpath refid="lib-classpath"/>
+		</javac>
+	</target>
+
+	<!-- 3. copy第三方jar包和资源文件文件 -->
+	<target name="jar" depends="编译">
+		<!--将xml、property文件copy到target目录下 -->
+		<copy todir="${classes.dir}">
+			<fileset dir="src">
+				<include name="**/*.xml"/>
+			</fileset>
+			<fileset dir="src">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<copy todir="${classes.dir}/lib">
+			<fileset dir="${lib.dir}"/>
+		</copy>
+		<pathconvert property="mf.classpath" pathsep=" ">
+			<path refid="lib-classpath"/>
+			<mapper>
+				<chainedmapper>
+					<flattenmapper/>
+					<globmapper from="*" to="${jarname}/lib/*"/>
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
+
+		<!-- 4. 打包jar文件，输出路径为out目录 -->
+		<jar destfile="${output.dir}/${jarname}" basedir="${classes.dir}" zip64Mode="always" filesetmanifest="mergewithoutmain">		 
+			
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/activation-1.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/antisamy-1.4.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/apacheds-i18n-2.0.0-M15.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/apacheds-kerberos-codec-2.0.0-M15.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/api-asn1-api-1.0.0-M20.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/api-util-1.0.0-M20.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/asm-3.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/avro-1.7.6-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/aws-java-sdk-core-1.10.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/aws-java-sdk-kms-1.10.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/aws-java-sdk-s3-1.10.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/batik-css-1.7.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/batik-ext-1.7.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/batik-util-1.7.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/beh-dependency.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/bsh-core-2.0b4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/c3p0-0.9.1.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-beanutils-1.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-beanutils-core-1.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-cli-1.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-codec-1.10.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-collections-3.2.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-compress-1.4.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-configuration-1.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-daemon-1.0.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-digester-1.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-el-1.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-fileupload-1.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-httpclient-3.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-io-2.4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-lang-2.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-logging-1.1.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-math-2.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-math3-3.1.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/commons-net-3.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/compare.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/compiler-0.9.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/core-3.1.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/curator-client-2.7.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/curator-framework-2.7.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/curator-recipes-2.7.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/disruptor-3.3.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/elasticsearch-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/esapi-2.1.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/findbugs-annotations-1.3.9-1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/gson-2.2.4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/guava-12.0.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-annotations-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-auth-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-aws-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-client-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-common-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-hdfs-2.6.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-hdfs-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-mapreduce-client-app-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-mapreduce-client-common-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-mapreduce-client-core-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-mapreduce-client-jobclient-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-mapreduce-client-shuffle-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-yarn-api-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-yarn-client-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-yarn-common-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hadoop-yarn-server-common-2.6.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hamcrest-core-1.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-annotations-1.2.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-annotations-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-client-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-common-1.2.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-common-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-examples-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-external-blockcache-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-hadoop-compat-1.2.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-hadoop-compat-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-hadoop2-compat-1.2.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-hadoop2-compat-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-it-1.2.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-it-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-prefix-tree-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-procedure-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-protocol-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-resource-bundle-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-rest-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-server-1.2.0-cdh5.7.0-tests.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-server-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-shell-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-spark-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hbase-thrift-1.2.0-cdh5.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/HdrHistogram-2.1.9.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/high-scale-lib-1.1.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hppc-0.7.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/hsqldb-1.8.0.10.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/htrace-core-3.2.0-incubating.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/htrace-core4-4.0.1-incubating.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/httpasyncclient-4.1.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/httpclient-4.5.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/httpcore-4.4.5.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/httpcore-nio-4.4.5.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-annotations-2.2.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-core-2.8.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-core-asl-1.8.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-databind-2.2.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-dataformat-cbor-2.8.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-dataformat-smile-2.8.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-dataformat-yaml-2.8.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-jaxrs-1.8.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-mapper-asl-1.8.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jackson-xc-1.8.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jamon-runtime-2.4.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jasper-compiler-5.5.23.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jasper-runtime-5.5.23.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/java-version-checker-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/java-xmlbuilder-0.4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jaxb-api-2.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jaxb-impl-2.2.3-1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jcodings-1.0.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jersey-client-1.9.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jersey-core-1.9.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jersey-json-1.9.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jersey-server-1.9.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jets3t-0.9.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jettison-1.3.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jetty-6.1.26.cloudera.4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jetty-sslengine-6.1.26.cloudera.4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jetty-util-6.1.26.cloudera.4.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jna-4.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/joda-time-2.9.5.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/joni-2.1.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jopt-simple-5.0.2.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jruby-cloudera-1.0.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jsch-0.1.42.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jsp-2.1-6.1.14.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jsp-api-2.1-6.1.14.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jsr305-1.3.9.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/jts-1.13.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/junit-4.12.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lang-mustache-client-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/leveldbjni-all-1.8.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/libthrift-0.9.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/log4j-1.2.17.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/log4j-api-2.7.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/log4j-core-2.7.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-analyzers-common-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-backward-codecs-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-core-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-grouping-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-highlighter-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-join-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-memory-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-misc-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-queries-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-queryparser-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-sandbox-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-spatial-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-spatial-extras-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-spatial3d-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/lucene-suggest-6.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/metrics-core-2.2.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/mysql-connector-java-5.1.30.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/nekohtml-1.9.12.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-3.10.6.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-buffer-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-codec-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-codec-http-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-common-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-handler-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-resolver-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/netty-transport-4.1.9.Final.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/paranamer-2.3.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/percolator-client-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/protobuf-java-2.5.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/reindex-client-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/rest-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/securesm-1.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/servlet-api-2.5-6.1.14.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/slf4j-api-1.7.5.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/slf4j-log4j12-1.7.5.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/snakeyaml-1.15.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/snappy-java-1.0.4.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/spatial4j-0.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/spymemcached-2.11.6.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/t-digest-3.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/tomcat-util.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/transport-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/transport-netty3-client-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/transport-netty4-client-5.4.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xalan-2.7.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xercesImpl-2.9.1.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xml-apis-1.3.03.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xml-apis-ext-1.3.04.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xmlenc-0.52.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xom-1.2.5.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/xz-1.0.jar"/>
+	            <zipfileset excludes="META-INF/*.SF" src="${lib.dir}/zookeeper-3.4.5-cdh5.7.0.jar"/>
+			
+			<manifest>
+          <attribute name="Main-Class" value="com.bonc.main.SocketMain"/>
+          <attribute name="Class-Path" value="${mf.classpath}"/>
+      </manifest>
+		</jar>
+	</target>
+	
+	<!--上传到服务器，并启动
+	<target name="sshexec" depends="jar">
+		<sshexec username="hadoop" 
+			password="hadoop001" 
+			host="" 
+			port="22" trust="true"
+			command="ls">
+		</sshexec>
+	</target>
+	 -->
+</project>
